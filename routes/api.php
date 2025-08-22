@@ -26,9 +26,3 @@ Route::get('/reservations/{id}', [ReservationController::class, 'show']);
 Route::post('/reservations/{id}/cancel', [ReservationController::class, 'cancel']);
 
 
-//with login-test require user token
-//Route::middleware('auth:sanctum')->group(function () {
-//    Route::post('/reservations', [ReservationController::class, 'store']);
-//    Route::get('/reservations/{id}', [ReservationController::class, 'show']);
-//    Route::post('/reservations/{id}/cancel', [ReservationController::class, 'cancel']);
-//});

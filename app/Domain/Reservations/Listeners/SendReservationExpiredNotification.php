@@ -9,6 +9,6 @@ class SendReservationExpiredNotification
 {
     public function handle(ReservationExpired $event): void
     {
-        Log::info("📩 Listener triggered: Sending email for reservation #{$event->reservationId}");
+        Log::info(" Listener triggered: Sending email for reservation #{$event->reservationId}");
     }
 }

@@ -1,61 +1,280 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# پروژه: API رزرو موقت اتاق هتل
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+**نسخه:** 1.0  
+**زبان:** PHP (Laravel)  
+**شرح کوتاه:** این پروژه یک API تستی برای رزرو **موقت** اتاق‌های هتل است. کاربر می‌تواند با ارسال `room_id` و `quantity` یک رزرو موقت (اعتبار ۲ دقیقه) ثبت کند؛ در صورت وجود ظرفیت کافی، ظرفیت کاسته می‌شود و پس از انقضا ظرفیت آزاد خواهد شد.
 
-## About Laravel
+---
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## فهرست محتوا
+- [ویژگی‌ها](#%D9%88%DB%8C%DA%98%DA%AF%DB%8C%E2%80%8C%D9%87%D8%A7)
+- [نیازمندی‌ها](#%D9%86%DB%8C%D8%A7%D8%B2%D9%85%D9%86%D8%AF%DB%8C%E2%80%8C%D9%87%D8%A7)
+- [نصب و راه‌اندازی سریع](#%D9%86%D8%B5%D8%A8-%D9%88-%D8%B1%D8%A7%D9%87%E2%80%8C%D8%A7%D9%86%D8%AF%D8%A7%D8%B2%DB%8C-%D8%B3%D8%B1%DB%8C%D8%B9)
+- [متغیرهای محیطی مهم (`.env`)](#%D9%85%D8%AA%D8%BA%DB%8C%D8%B1%D9%87%D8%A7%DB%8C-%D9%85%D8%AD%DB%8C%D8%B7%DB%8C-%D9%85%D9%87%D9%85)
+- [اجرای مهاجرت‌ها و دادهٔ اولیه](#%D8%A7%D8%AC%D8%B1%D8%A7%DB%8C-%D9%85%D9%87%D8%A7%D8%AC%D8%B1%D8%AA%E2%80%8C%D9%87%D8%A7-%D9%88-%D8%AF%D8%A7%D8%AF%D9%87%E2%80%8C%D8%A7%D9%88%D9%84%DB%8C)
+- [اجرای صف‌ها و انقضاها (Expiration)](#%D8%A7%D8%AC%D8%B1%D8%A7%DB%8C-%D8%B5%D9%81%E2%80%8C%D9%87%D8%A7-%D9%88-%D8%A7%D9%86%D9%82%D8%B6%D8%A7%D9%87%E2%80%8C%D9%87%D8%A7)
+- [مسیرها / Endpoints همراه مثال‌های درخواست و پاسخ](#%D9%85%D8%B3%DB%8C%D8%B1%D9%87%D8%A7--endpoints-%D9%87%D9%85%D8%B1%D8%A7%D9%87-%D9%85%D8%AB%D8%A7%D9%84%E2%80%8C%D9%87%D8%A7%DB%8C-%D8%AF%D8%B1%D8%AE%D9%88%D8%A7%D8%B3-%D9%88-%D9%BE%D8%A7%D8%B3%D8%AE)
+- [مدیریت هم‌زمانی و جلوگیری از oversell](#%D9%85%D8%AF%DB%8C%D8%B1%DB%8C%D8%AA-%D9%87%D9%85%E2%80%8C%D8%B2%D9%85%D8%A7%D9%86%DB%8C-%D9%88-%D8%AC%D9%84%D9%88%DA%AF%DB%8C%D8%B1%DB%8C-%D8%A7%D8%B2-oversell)
+- [معماری پروژه (مختصر)](#%D9%85%D8%B9%D9%85%D8%A7%D8%B1%DB%8C-%D9%BE%D8%B1%D9%88%DA%98%D9%87-%D9%85%D8%AE%D8%AA%D8%B5%D8%B1)
+- [تست‌ها](#%D8%AA%D8%B3%D8%AA%E2%80%8C%D9%87%D8%A7)
+- [موارد امتیازی پیشنهادی](#%D9%85%D9%88%D8%A7%D8%B1%D8%AF-%D8%A7%D9%85%D8%AA%DB%8C%D8%A7%D8%B2%DB%8C)
+- [نحوهٔ مشارکت / Contributing](#%D9%86%D8%AD%D9%88%D9%87%E2%80%8C%D9%85%D8%B4%D8%A7%D8%B1%DA%A9%D8%AA--contributing)
+- [لایسنس](#%D9%84%D8%A7%DB%8C%D8%B3%D9%86%D8%B3)
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+---
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## ویژگی‌ها
+- لیست اتاق‌ها با ظرفیت پیش‌فرض و ظرفیت فعلی.
+- رزرو موقت: ثبت رزرو با `room_id` و `quantity`.
+- اعتبار رزرو: **۲ دقیقه** (قابل تنظیم).
+- کاهش ظرفیت هنگام رزرو و آزادسازی خودکار پس از انقضا.
+- پاسخ‌های ساختارمند (JSON) و پیام‌های خطای قابل‌فهم.
+- طراحی طبق الگوهای `Repository` و `Service` (قابل توسعه).
 
-## Learning Laravel
+---
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+## نیازمندی‌ها
+- PHP >= 8.1  
+- Composer  
+- Laravel 10.x  
+- پایگاه داده (MySQL یا مشابه)  
+- Redis یا Queue driver مناسب (برای اجرای Jobها / صف‌ها) — البته می‌توان از `database` queue نیز استفاده کرد.
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+---
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+## نصب و راه‌اندازی سریع
 
-## Laravel Sponsors
+1. کلون کردن ریپو:
+   ```bash
+   git clone https://github.com/your-username/reservation-room-reservation.git
+   cd reservation-room-reservation
+   ```
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+2. نصب وابستگی‌ها:
+   ```bash
+   composer install
+   npm install
+   npm run dev   # در صورت نیاز به assets فرانت
+   ```
 
-### Premium Partners
+3. آماده‌سازی فایل محیطی:
+   ```bash
+   cp .env.example .env
+   php artisan key:generate
+   ```
+   سپس مقادیر اتصال دیتابیس و صف را در `.env` قرار دهید.
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+4. اجرای مهاجرت‌ها و دادهٔ اولیه:
+   ```bash
+   php artisan migrate --seed
+   ```
+   (اگر می‌خواهید دیتابیس را از صفر ریست کنید:)
+   ```bash
+   php artisan migrate:fresh --seed
+   ```
 
-## Contributing
+5. اجرای صف‌ها (آیا از Redis یا database استفاده می‌کنید؟)
+   - راه سریع (توسعه):
+     ```bash
+     php artisan queue:work
+     ```
+   - پیشنهاد برای محصول:
+     از یک پروسس منیجر (supervisor) برای اجرای `php artisan queue:work` استفاده کنید.
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+6. اجرای سرور محلی:
+   ```bash
+   php artisan serve
+   ```
+   سپس API معمولاً در `http://127.0.0.1:8000` در دسترس خواهد بود.
 
-## Code of Conduct
+---
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+## متغیرهای مهم در `.env`
+```env
+APP_NAME=ReservationAPI
+APP_ENV=local
+APP_KEY=base64:...
 
-## Security Vulnerabilities
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=reservation
+DB_USERNAME=root
+DB_PASSWORD=
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+QUEUE_CONNECTION=database   # یا redis
+CACHE_DRIVER=file
+```
 
-## License
+---
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+## اجرای زمان‌بندی (Scheduler) برای پاکسازی/انقضاها
+اگر پروژه از `ExpireReservationsCommand` یا زمان‌بندی برای بررسی انقضاها استفاده می‌کند، بهترین کار اضافه کردن crontab زیر در سرور است:
+```cron
+* * * * * cd /path/to/project && php artisan schedule:run >> /dev/null 2>&1
+```
+بدین شکل کرون هر دقیقه `schedule:run` را اجرا کرده و کامندهای زمان‌بندی‌شده را اجرا می‌کند. (جایگزین: می‌توانید از job/queue مستقیم استفاده کنید.)
+
+---
+
+## Endpoints (نمونه‌ها)
+
+> فرض می‌کنیم پایهٔ آدرس: `http://127.0.0.1:8000/api/v1`
+
+### 1. لیست اتاق‌ها
+- **درخواست**
+  ```
+  GET /api/v1/rooms
+  ```
+- **پاسخ نمونه**
+  ```json
+  [
+    {
+      "id": 1,
+      "name": "اتاق یک نفره",
+      "capacity": 5,
+      "available": 3
+    },
+    ...
+  ]
+  ```
+
+### 2. ثبت رزرو موقت
+- **درخواست**
+  ```
+  POST /api/v1/reservations
+  Content-Type: application/json
+
+  {
+    "room_id": 1,
+    "quantity": 2
+  }
+  ```
+- **پاسخ موفق**
+  ```json
+  {
+    "status": "success",
+    "data": {
+      "reservation_id": 123,
+      "room_id": 1,
+      "quantity": 2,
+      "expires_at": "2025-08-23T12:34:56Z"
+    }
+  }
+  ```
+- **پاسخ خطا (ظرفیت ناکافی)**
+  ```json
+  {
+    "status": "error",
+    "message": "ظرفیت کافی برای این اتاق وجود ندارد."
+  }
+  ```
+
+### 3. مشاهده جزئیات رزرو (اختیاری)
+- `GET /api/v1/reservations/{id}`
+
+---
+
+## مدیریت هم‌زمانی و جلوگیری از Oversell
+برای جلوگیری از oversell و مشکلات رقابتی، پیشنهادها و روش‌های امن:
+
+1. **قفل سطح ردیف در تراکنش (Pessimistic Locking)**  
+   از `lockForUpdate()` در تراکنش DB استفاده کنید تا هم‌زمان چند درخواست نتوانند ظرفیت را همزمان تغییر دهند:
+   ```php
+   use Illuminate\Support\Facades\DB;
+
+   DB::transaction(function() use ($roomId, $quantity) {
+       $room = Room::where('id', $roomId)->lockForUpdate()->firstOrFail();
+
+       if ($room->available < $quantity) {
+           throw new \Exception('Not enough capacity');
+       }
+
+       $room->available -= $quantity;
+       $room->save();
+
+       // ایجاد رکورد رزرو...
+   });
+   ```
+
+2. **قفل توزیع‌شده (Distributed Lock) با Redis**  
+   اگر سرورهای متعدد دارید، از Laravel Redis lock یا packageهایی مثل `laravel-lock` استفاده کنید:
+   ```php
+   Cache::lock('room:'.$roomId, 10)->get(function () use ($roomId, $quantity) {
+       // منطق رزرو امن
+   });
+   ```
+
+3. **Atomic DB Update (در صورت ساده بودن طراحی)**  
+   استفاده از دستور SQL که به‌صورت شرطی مقدار را کاهش دهد:
+   ```sql
+   UPDATE rooms SET available = available - :q
+   WHERE id = :id AND available >= :q
+   ```
+   و سپس چک کنید `affected_rows` > 0 باشد.
+
+> پیاده‌سازی پیشنهادشده در پروژه می‌تواند ترکیبی از روش‌های بالا باشد. بررسی کنید که `ReservationService` یا repository مربوطه آیا از تراکنش/قفل استفاده می‌کند یا خیر — در صورت نبود پیاده‌سازی، اضافه کردن `lockForUpdate()` یا Redis lock ضروریست.
+
+---
+
+## معماری پروژه (مختصر)
+ساختار پیشنهادی/مشاهده‌شده (مسیرها در پروژه):
+- `app/Http/Controllers/` → کنترلرهای API (`RoomController`, `ReservationController`)
+- `app/Domain/Reservations/` → DTOها، Events، Jobs مرتبط با رزرو
+- `app/Repositories/` → لایهٔ دسترسی به داده (RoomRepository, ReservationRepository)
+- `app/Services/` → منطق اصلی رزرو (ReservationService)
+- `app/Console/Commands/ExpireReservationsCommand.php` → کامندی برای پردازش انقضاها
+- `app/Domain/Reservations/Jobs/ExpireReservationJob.php` → Job برای آزادسازی ظرفیت
+
+(در ریپو شما همین الگوها به‌صورت تفکیک‌شده قرار دارند؛ این ساختار باعث خوانایی و قابل‌تست بودن بهتر می‌شود.)
+
+---
+
+## تست‌ها
+- تست‌ها در فولدر `tests/` قرار دارند.  
+- اجرای تست‌ها:
+  ```bash
+  php artisan test
+  ```
+- پیشنهاد: نوشتن تست‌های واحد برای منطق کاهش/آزادسازی ظرفیت و تست‌های یکپارچه (integration) که رقابت هم‌زمان را شبیه‌سازی کنند.
+
+---
+
+## موارد امتیازی پیشنهادی (اگر می‌خواهید امتیاز بیشتر یا پوشش بیشتر داشته باشید)
+- اضافه کردن **Postman Collection** یا OpenAPI (Swagger) برای مستندسازی API.
+- نوشتن تست‌های بیشتر (خصوصاً تست هم‌زمانی).
+- استفاده از **Feature Flags** یا پیکربندی قابل تغییر برای مدت‌زمان انقضا.
+- افزودن سیستم لاگ/متیریک برای مانیتور کردن نرخ اشغال/لغو.
+- استفاده از design pattern هایی مثل `Factory`, `Strategy` در قسمت business logic (در صورت پیچیده‌تر شدن منطق).
+
+---
+
+## نکات عملیاتی
+- برای محیط تولید حتماً از `QUEUE_CONNECTION=redis` یا یک صف‌Runner با supervisor استفاده کنید.
+- مطمئن شوید زمان سرور (timezone) با زمان ذخیره‌شده در `expires_at` هماهنگ است (UTC توصیه می‌شود).
+- هنگام تست concurrency از ابزارهایی مثل `ab`, `wrk` یا اسکریپت‌های php/curl موازی استفاده کنید.
+
+---
+
+## نحوهٔ ارسال/تحویل
+- سورس را در یک ریپوزیتوری عمومی در GitHub قرار دهید.
+- این `README.md` را در ریشهٔ ریپو قرار دهید.
+- (اختیاری) یک پوشه `postman/` یا فایل `openapi.yaml` اضافه کنید تا مصرف‌کننده API بتواند سریع تست کند.
+
+---
+
+## مشارکت (Contributing)
+1. Fork کنید.
+2. یک branch جدید بسازید (`feature/your-feature`).
+3. تغییرات را کامیت کرده و pull request ارسال کنید.
+4. قبل از PR، `php artisan test` را اجرا کنید تا همه تست‌ها پاس شوند.
+
+---
+
+## لایسنس
+این پروژه با لایسنس MIT منتشر شود (در صورت تمایل، فایل `LICENSE` اضافه کنید).
+
+---
+
+## تماس / پشتیبانی
+برای سوالات بیشتر یا بازبینی کد، می‌توانید issue باز کنید یا PR ارسال کنید.
