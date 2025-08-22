@@ -1,0 +1,131 @@
+{
+	"info": {
+		"_postman_id": "2a57108b-0aa0-4919-8127-887a130a1eeb",
+		"name": "Reservation",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "27980657",
+		"_collection_link": "https://cloudy-firefly-321239.postman.co/workspace/Nona~fb29e4f3-64d4-4d21-9880-e7c6ae58b97c/collection/11502860-2a57108b-0aa0-4919-8127-887a130a1eeb?action=share&source=collection_link&creator=27980657"
+	},
+	"item": [
+		{
+			"name": "RoomController",
+			"item": [
+				{
+					"name": "rooms",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{reservation}}/rooms",
+							"host": [
+								"{{reservation}}"
+							],
+							"path": [
+								"rooms"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "ReservationController",
+			"item": [
+				{
+					"name": "reservations",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"user_id\": 1,\r\n    \"room_id\": 2,\r\n    \"quantity\": 1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{reservation}}/reservations",
+							"host": [
+								"{{reservation}}"
+							],
+							"path": [
+								"reservations"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/reservations/1",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"user_id\": 1,\r\n    \"room_id\": 2,\r\n    \"quantity\": 1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{reservation}}/reservations/2",
+							"host": [
+								"{{reservation}}"
+							],
+							"path": [
+								"reservations",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/reservations/2/cancel",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"user_id\": 1,\r\n    \"room_id\": 2,\r\n    \"quantity\": 1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{reservation}}/reservations/2/cancel",
+							"host": [
+								"{{reservation}}"
+							],
+							"path": [
+								"reservations",
+								"2",
+								"cancel"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
