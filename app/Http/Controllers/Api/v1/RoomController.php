@@ -1,25 +1,27 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api\v1;
 
 use App\Models\Room;
 use App\Repositories\Room\RoomRepository;
-use Illuminate\Http\Request;
+use App\Http\Resources\RoomResource;
+use App\Http\Controllers\Api\v1\ApiBaseController;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 
-class RoomController extends Controller
+class RoomController extends ApiBaseController
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index(RoomRepository $rooms): JsonResponse
     {
-        return response()->json([
-            'data' => $rooms->get(),
-        ]);
+        return $this->successResponse(
+            RoomResource::collection($rooms->get()),
+            "Rooms fetched successfully"
+        );
     }
 
-    /**
+
+
+/**
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
