@@ -4,6 +4,8 @@ namespace App\Domain\Reservations\Jobs;
 
 use App\Domain\Reservations\Events\ReservationExpired;
 use App\Models\Reservation;
+use App\Repositories\Reservation\ReservationRepository;
+use App\Repositories\Reservation\ReservationRepositoryInterface;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -15,18 +17,20 @@ class ExpireReservationJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    public function __construct(public int $reservationId)
+    public function __construct(public int $reservationId )
     {
     }
 
-    public function handle(): void
+    public function handle(ReservationRepositoryInterface $reservationRepository): void
     {
         // مقدار را بیرون می‌کشیم تا در closure در دسترس باشد
         $reservationId = $this->reservationId;
 
-        DB::transaction(function () use ($reservationId) {
+
+        DB::transaction(function () use ($reservationId , $reservationRepository) {
             // قفل ردیف رزرو
-            $res = Reservation::lockForUpdate()->find($reservationId);
+            $res = $reservationRepository->findForUpdate($reservationId);
+
             if (!$res) {
                 return;
             }
