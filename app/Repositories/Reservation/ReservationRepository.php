@@ -17,4 +17,10 @@ class ReservationRepository extends BaseRepository implements ReservationReposit
    {
        return parent::getModel();
    }
+
+
+    public function findForUpdate(int $id): ?Reservation
+    {
+        return Reservation::whereKey($id)->lockForUpdate()->first();
+    }
 }
