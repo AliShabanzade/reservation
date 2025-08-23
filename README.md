@@ -34,9 +34,9 @@
 ---
 
 ## نیازمندی‌ها
-- PHP >= 8.1  
+- PHP >= 8.2  
 - Composer  
-- Laravel 10.x  
+- Laravel 12.x  
 - پایگاه داده (MySQL یا مشابه)  
 - Redis یا Queue driver مناسب (برای اجرای Jobها / صف‌ها) — البته می‌توان از `database` queue نیز استفاده کرد.
 
@@ -46,7 +46,7 @@
 
 1. کلون کردن ریپو:
    ```bash
-   git clone https://github.com/your-username/reservation-room-reservation.git
+   git clone https://github.com/AliShabanzade/reservation.git
    cd reservation-room-reservation
    ```
 
