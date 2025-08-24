@@ -5,15 +5,14 @@ namespace App\Http\Controllers\Api\v1;
 use App\Domain\Reservations\Services\ReservationService;
 use App\Http\Requests\StoreReservationRequest;
 use App\Http\Resources\ReservationResource;
-use App\Repositories\Reservation\ReservationRepository;
-use App\Http\Controllers\Api\v1\ApiBaseController;
+use App\Repositories\Reservation\ReservationRepositoryInterface;
 use Illuminate\Http\JsonResponse;
 
 class ReservationController extends ApiBaseController
 {
     public function __construct(
         private ReservationService $service,
-        private ReservationRepository $reservations
+        private ReservationRepositoryInterface $reservations
     ) {}
 
     public function store(StoreReservationRequest $request): JsonResponse

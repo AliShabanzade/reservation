@@ -4,9 +4,7 @@ namespace App\Repositories\Room;
 
 use App\Models\Room;
 use App\Repositories\BaseRepository;
-use App\Repositories\Room\RoomRepositoryInterface;
 use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Database\Eloquent\Model;
 
 class RoomRepository extends BaseRepository implements RoomRepositoryInterface
 {

@@ -5,15 +5,15 @@ namespace App\Domain\Reservations\Services;
 use App\Domain\Reservations\DTO\ReservationResult;
 use App\Domain\Reservations\Jobs\ExpireReservationJob;
 use App\Models\Reservation;
-use App\Repositories\Reservation\ReservationRepository;
-use App\Repositories\Room\RoomRepository;
+use App\Repositories\Reservation\ReservationRepositoryInterface;
+use App\Repositories\Room\RoomRepositoryInterface;
 use Illuminate\Support\Facades\DB;
 
 class ReservationService
 {
     public function __construct(
-        private RoomRepository $rooms,
-        private ReservationRepository $reservations,
+        private RoomRepositoryInterface $rooms,
+        private ReservationRepositoryInterface $reservations,
         private int $ttlSeconds = 120, // 2 minutes
     ) {
     }
