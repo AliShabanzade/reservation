@@ -3,8 +3,6 @@
 namespace App\Domain\Reservations\Jobs;
 
 use App\Domain\Reservations\Events\ReservationExpired;
-use App\Models\Reservation;
-use App\Repositories\Reservation\ReservationRepository;
 use App\Repositories\Reservation\ReservationRepositoryInterface;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
