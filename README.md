@@ -208,7 +208,6 @@ CACHE_DRIVER=file
 - `app/Console/Commands/ExpireReservationsCommand.php` → کامندی برای پردازش انقضاها
 - `app/Domain/Reservations/Jobs/ExpireReservationJob.php` → Job برای آزادسازی ظرفیت
 
-(در ریپو شما همین الگوها به‌صورت تفکیک‌شده قرار دارند؛ این ساختار باعث خوانایی و قابل‌تست بودن بهتر می‌شود.)
 
 ---
 
@@ -218,7 +217,6 @@ CACHE_DRIVER=file
   ```bash
   php artisan test
   ```
-- پیشنهاد: نوشتن تست‌های واحد برای منطق کاهش/آزادسازی ظرفیت و تست‌های یکپارچه (integration) که رقابت هم‌زمان را شبیه‌سازی کنند.
 
 ---
 
@@ -227,7 +225,7 @@ CACHE_DRIVER=file
 
 
 ## نکات عملیاتی
-- برای محیط تولید حتماً از `QUEUE_CONNECTION=redis` یا یک صف‌Runner با supervisor استفاده کنید.
+- برای محیط تولید حتماً از `QUEUE_CONNECTION=database` یا یک صف‌Runner با supervisor استفاده کنید.
 - مطمئن شوید زمان سرور (timezone) با زمان ذخیره‌شده در `expires_at` هماهنگ است (UTC توصیه می‌شود).
 - هنگام تست concurrency از ابزارهایی مثل `ab`, `wrk` یا اسکریپت‌های php/curl موازی استفاده کنید.
 
