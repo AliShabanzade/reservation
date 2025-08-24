@@ -179,7 +179,7 @@ CACHE_DRIVER=file
 برای جلوگیری از oversell و مشکلات رقابتی،:
 
  **قفل سطح ردیف در تراکنش (Pessimistic Locking)**  
-   از `lockForUpdate()` در تراکنش DB استفاده کنید تا هم‌زمان چند درخواست نتوانند ظرفیت را همزمان تغییر دهند:
+   از `lockForUpdate()` در تراکنش DB استفاده شده تا هم‌زمان چند درخواست نتوانند ظرفیت را همزمان تغییر دهند:
    ```php
    use Illuminate\Support\Facades\DB;
 
