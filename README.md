@@ -47,7 +47,7 @@
 1. کلون کردن ریپو:
    ```bash
    git clone https://github.com/AliShabanzade/reservation.git
-   cd reservation-room-reservation
+ 
    ```
 
 2. نصب وابستگی‌ها:
@@ -176,9 +176,9 @@ CACHE_DRIVER=file
 ---
 
 ## مدیریت هم‌زمانی و جلوگیری از Oversell
-برای جلوگیری از oversell و مشکلات رقابتی، پیشنهادها و روش‌های امن:
+برای جلوگیری از oversell و مشکلات رقابتی،:
 
-1. **قفل سطح ردیف در تراکنش (Pessimistic Locking)**  
+ **قفل سطح ردیف در تراکنش (Pessimistic Locking)**  
    از `lockForUpdate()` در تراکنش DB استفاده کنید تا هم‌زمان چند درخواست نتوانند ظرفیت را همزمان تغییر دهند:
    ```php
    use Illuminate\Support\Facades\DB;
@@ -197,28 +197,10 @@ CACHE_DRIVER=file
    });
    ```
 
-2. **قفل توزیع‌شده (Distributed Lock) با Redis**  
-   اگر سرورهای متعدد دارید، از Laravel Redis lock یا packageهایی مثل `laravel-lock` استفاده کنید:
-   ```php
-   Cache::lock('room:'.$roomId, 10)->get(function () use ($roomId, $quantity) {
-       // منطق رزرو امن
-   });
-   ```
 
-3. **Atomic DB Update (در صورت ساده بودن طراحی)**  
-   استفاده از دستور SQL که به‌صورت شرطی مقدار را کاهش دهد:
-   ```sql
-   UPDATE rooms SET available = available - :q
-   WHERE id = :id AND available >= :q
-   ```
-   و سپس چک کنید `affected_rows` > 0 باشد.
-
-> پیاده‌سازی پیشنهادشده در پروژه می‌تواند ترکیبی از روش‌های بالا باشد. بررسی کنید که `ReservationService` یا repository مربوطه آیا از تراکنش/قفل استفاده می‌کند یا خیر — در صورت نبود پیاده‌سازی، اضافه کردن `lockForUpdate()` یا Redis lock ضروریست.
-
----
 
 ## معماری پروژه (مختصر)
-ساختار پیشنهادی/مشاهده‌شده (مسیرها در پروژه):
+ساختار (مسیرها در پروژه):
 - `app/Http/Controllers/` → کنترلرهای API (`RoomController`, `ReservationController`)
 - `app/Domain/Reservations/` → DTOها، Events، Jobs مرتبط با رزرو
 - `app/Repositories/` → لایهٔ دسترسی به داده (RoomRepository, ReservationRepository)
@@ -240,14 +222,9 @@ CACHE_DRIVER=file
 
 ---
 
-## موارد امتیازی پیشنهادی (اگر می‌خواهید امتیاز بیشتر یا پوشش بیشتر داشته باشید)
-- اضافه کردن **Postman Collection** یا OpenAPI (Swagger) برای مستندسازی API.
-- نوشتن تست‌های بیشتر (خصوصاً تست هم‌زمانی).
-- استفاده از **Feature Flags** یا پیکربندی قابل تغییر برای مدت‌زمان انقضا.
-- افزودن سیستم لاگ/متیریک برای مانیتور کردن نرخ اشغال/لغو.
-- استفاده از design pattern هایی مثل `Factory`, `Strategy` در قسمت business logic (در صورت پیچیده‌تر شدن منطق).
 
----
+
+
 
 ## نکات عملیاتی
 - برای محیط تولید حتماً از `QUEUE_CONNECTION=redis` یا یک صف‌Runner با supervisor استفاده کنید.
@@ -256,10 +233,6 @@ CACHE_DRIVER=file
 
 ---
 
-## نحوهٔ ارسال/تحویل
-- سورس را در یک ریپوزیتوری عمومی در GitHub قرار دهید.
-- این `README.md` را در ریشهٔ ریپو قرار دهید.
-- (اختیاری) یک پوشه `postman/` یا فایل `openapi.yaml` اضافه کنید تا مصرف‌کننده API بتواند سریع تست کند.
 
 ---
 
