@@ -59,7 +59,7 @@ class ReservationService
         return DB::transaction(function () use ($reservationId) {
 
 
-            $res = Reservation::lockForUpdate()->find($reservationId);
+            $res = $this->reservations->findForUpdate($reservationId);
             if (!$res || $res->status !== 'active') {
                 return null;
             }

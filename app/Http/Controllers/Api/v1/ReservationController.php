@@ -59,6 +59,6 @@ class ReservationController extends ApiBaseController
             return $this->errorResponse("Reservation not active", 422);
         }
 
-        return $this->successResponse(new ReservationResource($res), "Reservation cancelled");
+        return $this->successResponse(ReservationResource::make($res), "Reservation cancelled");
     }
 }
