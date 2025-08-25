@@ -48,7 +48,7 @@ class ReservationController extends ApiBaseController
             return $this->errorResponse("Reservation not found", 404);
         }
 
-        return $this->successResponse(new ReservationResource($res));
+        return $this->successResponse(ReservationResource::make($res));
     }
 
     public function cancel(int $id): JsonResponse
