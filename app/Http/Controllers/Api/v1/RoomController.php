@@ -10,10 +10,10 @@ use Illuminate\Http\Request;
 
 class RoomController extends ApiBaseController
 {
-    public function index(RoomRepositoryInterface $rooms): JsonResponse
+    public function index(RoomRepositoryInterface $roomRepository): JsonResponse
     {
         return $this->successResponse(
-            RoomResource::collection($rooms->get()),
+            RoomResource::collection($roomRepository->get()),
             "Rooms fetched successfully"
         );
     }

@@ -12,7 +12,7 @@ class ReservationController extends ApiBaseController
 {
     public function __construct(
         private ReservationService $service,
-        private ReservationRepositoryInterface $reservations
+        private ReservationRepositoryInterface $reservationRepository
     ) {}
 
     public function store(StoreReservationRequest $request): JsonResponse
@@ -32,7 +32,7 @@ class ReservationController extends ApiBaseController
             return $this->errorResponse(__($logicalCode), 422 , ['code' => $logicalCode]);
         }
 
-        $reservation = $this->reservations->find($result->reservationId);
+        $reservation = $this->reservationRepository->find($result->reservationId);
 
         return $this->successResponse(
             new ReservationResource($reservation),
@@ -43,7 +43,7 @@ class ReservationController extends ApiBaseController
 
     public function show(int $id): JsonResponse
     {
-        $res = $this->reservations->find($id);
+        $res = $this->reservationRepository->find($id);
 
         if (!$res) {
             return $this->errorResponse("Reservation not found", 404);
