@@ -12,9 +12,9 @@ use Illuminate\Support\Facades\DB;
 class ReservationService
 {
     public function __construct(
-        private RoomRepositoryInterface $rooms,
-        private ReservationRepositoryInterface $reservations,
-        private int $ttlSeconds = 120, // 2 minutes
+        private RoomRepositoryInterface        $roomRepository,
+        private ReservationRepositoryInterface $reservationRepository,
+        private int                            $ttlSeconds = 120, // 2 minutes
     ) {
     }
 
@@ -27,7 +27,7 @@ class ReservationService
         return DB::transaction(function () use ($userId, $roomId, $quantity) {
 
 
-            $room = $this->rooms->findForUpdate($roomId);
+            $room = $this->roomRepository->findForUpdate($roomId);
             if (!$room) {
                 return new ReservationResult(false, null, 'room_not_found');
             }
@@ -37,9 +37,9 @@ class ReservationService
             }
 
             $room->capacity_available -= $quantity;
-            $this->rooms->save($room);
+            $this->roomRepository->save($room);
 
-            $reservation = $this->reservations->
+            $reservation = $this->reservationRepository->
             store([
                 'user_id'    => $userId,
                 'room_id'    => $room->id,
@@ -59,7 +59,7 @@ class ReservationService
         return DB::transaction(function () use ($reservationId) {
 
 
-            $res = Reservation::lockForUpdate()->find($reservationId);
+            $res = $this->reservationRepository->findForUpdate($reservationId);
             if (!$res || $res->status !== 'active') {
                 return null;
             }
