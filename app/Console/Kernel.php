@@ -10,7 +10,7 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule): void
     {
         // Expire overdue reservations every minute
-        $schedule->command('reservations:expire')->everyMinute();
+//        $schedule->command('reservations:expire')->everyMinute();
     }
 
     protected function commands(): void
